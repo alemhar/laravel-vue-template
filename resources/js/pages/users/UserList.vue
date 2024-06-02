@@ -8,7 +8,7 @@ import UserListItem from './UserListItem.vue';
 import { debounce } from 'lodash';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import Preloader from '../../components/Preloader.vue';
-
+import api from '../../services/api'
 
 const toastr = useToastr();
 const users = ref({'data': []});
@@ -19,12 +19,10 @@ const form = ref(null);
 const loading = ref(false);
 const getUsers = (page = 1) => {
     loading.value = true;
-    axios.get(`/api/users?page=${page}`, {
+    api.get('/users', {
         params: {
-            query: searchQuery.value
-        },
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            page,
+            query: searchQuery.value,
         },
     })
     .then((response) => {
@@ -33,6 +31,9 @@ const getUsers = (page = 1) => {
         selectAll.value = false;
         loading.value = false;
     })
+    .catch((error) => {
+        console.error('Error fetching users:', error);
+    });
 }
 
 const createUserSchema = yup.object({
@@ -94,7 +95,6 @@ const updateUser = (values, { setErrors }) => {
 }
 
 const handleSubmit = (values, actions) => {
-    // console.log(actions);
     if (editing.value) {
         updateUser(values, actions);
     } else {
