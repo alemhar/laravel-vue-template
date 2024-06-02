@@ -20,7 +20,6 @@ const currentThemeMode = computed(() => {
         <AppNavbar />
         <SidebarLeft/>
         <div class="content-wrapper">
-            {{  authUserStore.user  }}
             <router-view></router-view>
         </div>
         <SidebarRight />
