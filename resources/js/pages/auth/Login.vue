@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { reactive, ref } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthUserStore } from '../../stores/AuthUserStore';
 
@@ -13,8 +13,27 @@ const form = reactive({
 });
 
 const loading = ref(false);
-
 const errorMessage = ref('');
+
+onMounted(() => {
+    const authToken = localStorage.getItem('authToken');
+    if (authToken) {
+        axios.get('/api/me', {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+        .then((response) => {
+            authUserStore.setAuthUser(response.data.user);
+            router.push('/admin/dashboard');
+        })
+        .catch((error) => {
+            console.error('Error fetching user:', error);
+        });
+    }
+});
+
+
 const handleSubmit = () => {
     loading.value = true;
     errorMessage.value = '';
@@ -32,6 +51,8 @@ const handleSubmit = () => {
             loading.value = false;
         });
 };
+
+
 </script>
 
 <template>
