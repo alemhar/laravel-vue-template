@@ -96,8 +96,6 @@ const updateUser = (values, { setErrors }) => {
 }
 
 const handleSubmit = (values, actions) => {
-    console.log('values', values);
-    console.log('actions', actions);
     if (editing.value) {
         updateUser(values, actions);
     } else {
