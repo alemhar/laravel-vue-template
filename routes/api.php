@@ -45,6 +45,8 @@ Route::middleware('guest')->group(
     
 
     Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::get('/me', [UserController::class, 'me']);
+        
         Route::get('/api/stats/appointments', [DashboardStatController::class, 'appointments']);
         Route::get('/api/stats/users', [DashboardStatController::class, 'users']);
 
