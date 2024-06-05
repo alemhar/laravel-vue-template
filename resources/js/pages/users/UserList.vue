@@ -9,11 +9,12 @@ import { debounce } from 'lodash';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import Preloader from '../../components/Preloader.vue';
 import api from '../../services/api'
+import { initial } from 'lodash';
 
 const toastr = useToastr();
 const users = ref({'data': []});
 const editing = ref(false);
-const formValues = ref();
+const formValues = ref({id: '', name: '', email: '', password: ''});
 const form = ref(null);
 
 const loading = ref(false);
@@ -46,7 +47,7 @@ const editUserSchema = yup.object({
     name: yup.string().required(),
     email: yup.string().email().required(),
     password: yup.string().when((password, schema) => {
-        return password ? schema.required().min(8) : schema;
+        return password != '' && password != null && password != undefined ? schema.required().min(8) : schema;
     }),
 });
 
@@ -73,12 +74,12 @@ const addUser = () => {
 const editUser = (user) => {
     editing.value = true;
     form.value.resetForm();
+    form.value.setFieldValue('name', user.name);
+    form.value.setFieldValue('email', user.email);
+    form.value.setFieldValue('id', user.id);
+    form.value.setFieldValue('password', '');
     $('#userFormModal').modal('show');
-    formValues.value = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-    };
+    
 };
 
 const updateUser = (values, { setErrors }) => {
@@ -95,6 +96,8 @@ const updateUser = (values, { setErrors }) => {
 }
 
 const handleSubmit = (values, actions) => {
+    console.log('values', values);
+    console.log('actions', actions);
     if (editing.value) {
         updateUser(values, actions);
     } else {
@@ -160,6 +163,7 @@ watch(searchQuery, debounce(() => {
 
 onMounted(() => {
     getUsers();
+    console.log('formValues', formValues)
 });
 </script>
 
@@ -268,10 +272,10 @@ onMounted(() => {
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Password</label>
+                            <label for="password">Password</label>
                             <Field name="password" type="password" class="form-control "
                                 :class="{ 'is-invalid': errors.password }" id="password" aria-describedby="nameHelp"
-                                placeholder="Enter password" />
+                                />
                             <span class="invalid-feedback">{{ errors.password }}</span>
                         </div>
                     </div>
