@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -72,5 +76,16 @@ class UserController extends Controller
         User::whereIn('id', request('ids'))->delete();
 
         return response()->json(['message' => 'Users deleted successfully!']);
+    }
+
+    public function me(Request $request)
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Return the user data
+        return response()->json([
+            'user' => $user,
+        ]);
     }
 }
