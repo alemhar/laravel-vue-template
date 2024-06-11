@@ -35,6 +35,7 @@ app.use(router);
 
 
 // if (window.location.pathname === '/login') {
+//     console.log('login');
 //     const currentApp = createApp({});
 //     currentApp.component('Login', Login);
 //     currentApp.mount('#login');
