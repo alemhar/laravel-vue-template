@@ -40,7 +40,6 @@ const handleSubmit = () => {
     axios.post('/api/auth/token', form)
         .then((response) => {
             localStorage.setItem('authToken', response.data.token);
-            console.log(response.data.user);
             authUserStore.setAuthUser(response.data.user);
             router.push('/admin/dashboard');
         })

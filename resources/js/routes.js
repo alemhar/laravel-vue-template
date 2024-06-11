@@ -7,7 +7,13 @@ import UserList from './pages/users/UserList.vue';
 import Login from './pages/auth/Login.vue';
 import { useAuthUserStore } from './stores/AuthUserStore';
 
-
+const requireAuth = (to, from, next) => {
+    const authUserStore = useAuthUserStore();
+    if (!authUserStore.user.name) {
+        return next('/auth/login');
+    }
+    next();
+};
 
 export default [
     {
@@ -20,13 +26,7 @@ export default [
         path: '/admin/dashboard',
         name: 'admin.dashboard',
         component: Dashboard,
-        beforeEnter: (to, from, next) => {
-            const authUserStore = useAuthUserStore();
-            if (!authUserStore.user.name) {
-                return next('/auth/login');
-            }
-            next();
-        },
+        beforeEnter: requireAuth,
     },
 
     {
@@ -51,13 +51,7 @@ export default [
         path: '/admin/users',
         name: 'admin.users',
         component: UserList,
-        beforeEnter: (to, from, next) => {
-            const authUserStore = useAuthUserStore();
-            if (!authUserStore.user.name) {
-                return next('/auth/login');
-            }
-            next();
-        },
+        beforeEnter: requireAuth,
     },
 
     // {

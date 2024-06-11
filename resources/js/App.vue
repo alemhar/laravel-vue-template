@@ -16,7 +16,7 @@ const currentThemeMode = computed(() => {
 </script>
 
 <template>
-    <div v-if   ="authUserStore.user.name" class="wrapper" :class="currentThemeMode" id="app">
+    <div v-if ="authUserStore.user.name" class="wrapper" :class="currentThemeMode" id="app">
         <AppNavbar />
         <SidebarLeft/>
         <div class="content-wrapper">

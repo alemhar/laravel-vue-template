@@ -91,7 +91,6 @@ const updateUser = (values, { setErrors }) => {
             toastr.success('User updated successfully!');
         }).catch((error) => {
             setErrors(error.response.data.errors);
-            console.log(error);
         });
 }
 
@@ -113,7 +112,6 @@ const toggleSelection = (user) => {
     } else {
         selectedUsers.value.splice(index, 1);
     }
-    console.log(selectedUsers.value);
 };
 
 const userIdBeingDeleted = ref(null);
@@ -152,7 +150,6 @@ const selectAllUsers = () => {
     } else {
         selectedUsers.value = [];
     }
-    console.log(selectedUsers.value);
 }
 
 watch(searchQuery, debounce(() => {
@@ -161,7 +158,6 @@ watch(searchQuery, debounce(() => {
 
 onMounted(() => {
     getUsers();
-    console.log('formValues', formValues)
 });
 </script>
 
