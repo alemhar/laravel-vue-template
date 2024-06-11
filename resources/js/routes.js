@@ -5,6 +5,9 @@ import UserList from './pages/users/UserList.vue';
 // import UpdateSetting from './pages/settings/UpdateSetting.vue';
 // import UpdateProfile from './pages/profile/UpdateProfile.vue';
 import Login from './pages/auth/Login.vue';
+import { useAuthUserStore } from './stores/AuthUserStore';
+
+
 
 export default [
     {
@@ -17,6 +20,13 @@ export default [
         path: '/admin/dashboard',
         name: 'admin.dashboard',
         component: Dashboard,
+        beforeEnter: (to, from, next) => {
+            const authUserStore = useAuthUserStore();
+            if (!authUserStore.user.name) {
+                return next('/auth/login');
+            }
+            next();
+        },
     },
 
     {
@@ -41,6 +51,13 @@ export default [
         path: '/admin/users',
         name: 'admin.users',
         component: UserList,
+        beforeEnter: (to, from, next) => {
+            const authUserStore = useAuthUserStore();
+            if (!authUserStore.user.name) {
+                return next('/auth/login');
+            }
+            next();
+        },
     },
 
     // {
