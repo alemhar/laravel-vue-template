@@ -3,6 +3,7 @@ import { formatDate } from '../../helper.js';
 import { ref } from 'vue';
 import { useToastr } from '../../toastr.js';
 import axios from 'axios';
+import api from '../../services/api'
 
 const toastr = useToastr();
 
@@ -26,7 +27,7 @@ const roles = ref([
 ]);
 
 const changeRole = (user, role) => {
-    axios.patch(`/api/users/${user.id}/change-role`, {
+    api.patch(`/users/${user.id}/change-role`, {
         role: role,
     })
     .then(() => {
@@ -47,12 +48,12 @@ const toggleSelection = () => {
         <td>{{ user.formatted_created_at }}</td>
         <td>
             <select class="form-control" @change="changeRole(user, $event.target.value)">
-                <option v-for="role in roles" :value="role.value" :selected="(user.role === role.name)">{{ role.name }}</option>
+                <option v-for="role in roles" :value="role.value" :selected="(user.role === role.value)">{{ role.name }}</option>
             </select>
         </td>
         <td>
             <a href="#" @click.prevent="$emit('editUser', user)"><i class="fa fa-edit"></i></a>
-            <a href="#" @click.prevent="$emit('confirmUserDeletion', user.id)"><i class="fa fa-trash text-danger ml-2"></i></a>
+            <a href="#" @click.prevent="$emit('confirmUserDeletion', user)"><i class="fa fa-trash text-danger ml-2"></i></a>
         </td>
     </tr>
 </template>
