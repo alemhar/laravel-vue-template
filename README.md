@@ -14,44 +14,55 @@ Before getting started, make sure you have the following installed:
 ## Installation
 
 1. Clone this repository:
+```
 git clone https://github.com/alemhar/laravel-vue-boilerplate.git
-
+```
 
 2. Navigate to the project directory:
+```
 cd laravel-vue-boilerplate
-
+```
 
 3. Install Laravel dependencies:
+```
 composer install
-
+```
 
 4. Copy the environment file:
+```
 cp .env.example .env
-
+```
 
 5. Generate an application key:
+```
 php artisan key:generate
-
+```
 
 6. Set up the database configuration in the `.env` file.
 
 7. Run the database migrations:
+```
 php artisan migrate
-
+```
 
 8. Install Vue.js dependencies using Yarn:
+```
 yarn install
-
+```
 or using NPM:
+```
 npm install
-
+```
 
 9. Compile the Vue.js assets using Yarn:
+```
 yarn dev
+```
 
 or using NPM:
+```
 npm run dev
-
+```
 
 10. Serve the application using Laravel's built-in server:
 
