@@ -14,7 +14,7 @@ Before getting started, make sure you have the following installed:
 ## Installation
 
 1. Clone this repository:
-git clone https://github.com/your-username/laravel-vue-boilerplate.git
+git clone https://github.com/alemhar/laravel-vue-boilerplate.git
 
 
 2. Navigate to the project directory:
