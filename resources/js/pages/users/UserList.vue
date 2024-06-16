@@ -52,7 +52,7 @@ const editUserSchema = yup.object({
 });
 
 const createUser = (values, { resetForm, setErrors }) => {
-    axios.post('/api/users', values)
+    api.post('/users', values)
         .then((response) => {
             users.value.data.unshift(response.data);
             $('#userFormModal').modal('hide');
