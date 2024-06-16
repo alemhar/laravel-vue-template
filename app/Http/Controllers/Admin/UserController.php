@@ -43,7 +43,7 @@ class UserController extends Controller
         request()->validate([
             'name' => 'required',
             'email' => 'required|unique:users,email,'.$user->id,
-            'password' => 'sometimes|min:8',
+            'password' => 'nullable|min:8',
         ]);
 
         $user->update([
@@ -62,12 +62,12 @@ class UserController extends Controller
         return response()->noContent();
     }
 
-    public function changeRole(User $user)
+    public function changeRole(User $user, Request $request)
     {
         $user->update([
-            'role' => request('role'),
+            'role' => $request->role,
         ]);
-
+        
         return response()->json(['success' => true]);
     }
 
