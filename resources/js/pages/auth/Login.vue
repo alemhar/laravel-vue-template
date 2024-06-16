@@ -7,7 +7,7 @@ import { useAuthUserStore } from '../../stores/AuthUserStore';
 const authUserStore = useAuthUserStore();
 const router = useRouter();
 const form = reactive({
-    email: 'alize95@example.com',
+    email: 'collins.destiny@example.com',
     password: 'password',
     "device_name": "web"
 });
