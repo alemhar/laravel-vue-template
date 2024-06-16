@@ -25,7 +25,11 @@ onMounted(() => {
         })
         .then((response) => {
             authUserStore.setAuthUser(response.data.user);
-            router.push('/admin/dashboard');
+            if (authUserStore.user.role === 1) {
+                router.push('/admin/dashboard');
+            } else {
+                router.push('/');
+            }
         })
         .catch((error) => {
             console.error('Error fetching user:', error);
@@ -41,7 +45,11 @@ const handleSubmit = () => {
         .then((response) => {
             localStorage.setItem('authToken', response.data.token);
             authUserStore.setAuthUser(response.data.user);
-            router.push('/admin/dashboard');
+            if (authUserStore.user.role === 1) {
+                router.push('/admin/dashboard');
+            } else {
+                router.push('/');
+            }
         })
         .catch((error) => {
             errorMessage.value = error.response.data.message;
