@@ -83,7 +83,9 @@ const editUser = (user) => {
 };
 
 const updateUser = (values, { setErrors }) => {
-    axios.put('/api/users/' + formValues.value.id, values)
+    formValues.value = values;
+
+    api.put('/users/' + formValues.value.id, values)
         .then((response) => {
             const index = users.value.data.findIndex(user => user.id === response.data.id);
             users.value.data[index] = response.data;
@@ -93,6 +95,7 @@ const updateUser = (values, { setErrors }) => {
             setErrors(error.response.data.errors);
         });
 }
+
 
 const handleSubmit = (values, actions) => {
     if (editing.value) {
@@ -114,18 +117,18 @@ const toggleSelection = (user) => {
     }
 };
 
-const userIdBeingDeleted = ref(null);
-const confirmUserDeletion = (id) => {
-    userIdBeingDeleted.value = id;
+const userBeingDeleted = ref(null);
+const confirmUserDeletion = (user) => {
+    userBeingDeleted.value = user;
     $('#deleteUserModal').modal('show');
 };
 
 const deleteUser = () => {
-    axios.delete(`/api/users/${userIdBeingDeleted.value}`)
+    api.delete(`/users/${userBeingDeleted.value.id}`)
     .then(() => {
         $('#deleteUserModal').modal('hide');
         toastr.success('User deleted successfully!');
-        users.value.data = users.value.data.filter(user => user.id !== userIdBeingDeleted.value);
+        users.value.data = users.value.data.filter(user => user.id !== userBeingDeleted.value.id);
     });
 };
 
@@ -288,7 +291,7 @@ onMounted(() => {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">
-                        <span>Delete User</span>
+                        <span>Delete User <b>{{ userBeingDeleted ? userBeingDeleted.name : '' }}</b></span>
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
